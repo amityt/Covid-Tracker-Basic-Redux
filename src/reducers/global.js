@@ -1,8 +1,14 @@
-import { GET_GLOBAL, FAILED_GLOBAL } from "../actions/types";
+import {
+	GET_GLOBAL,
+	FAILED_GLOBAL,
+	GET_COUNTRY,
+	FAILED_COUNTRY,
+} from "../actions/types";
 
 const initialState = {
 	loading: true,
 	globalData: [],
+	countryData: [],
 };
 
 export default function (state = initialState, action) {
@@ -18,7 +24,19 @@ export default function (state = initialState, action) {
 			return {
 				...state,
 				loading: true,
+				globalData: [],
 			};
+		case GET_COUNTRY:
+			return {
+				...state,
+				loading: false,
+				countryData: payload,
+			};
+		// case FAILED_COUNTRY:
+		// 	return {
+		// 		...state,
+		// 		loading: true,
+		// 	};
 		default:
 			return state;
 	}

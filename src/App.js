@@ -12,8 +12,8 @@ function Routes() {
 			<Provider store={store}>
 				<Router>
 					<Switch>
-						<Route exact path="/home" component={GlobalPage} />
-						<Route exact path="/country" component={CountryPage} />
+						<Route exact path="/" component={GlobalPage} />
+						<Route exact path="/country/:countryname" component={CountryPage} />
 						<Route exact path="/india" component={IndiaPage} />
 					</Switch>
 				</Router>

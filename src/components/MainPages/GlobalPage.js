@@ -5,27 +5,40 @@ import PropTypes from "prop-types";
 import Dashboard from "../DisplayComponents/Dashboard";
 import ProgressBar from "../DisplayComponents/ProgressBar";
 import CountryCard from "../DisplayComponents/CountryCard";
+
 const GlobalPage = ({ getGlobal, global: { globalData, loading } }) => {
 	useEffect(() => {
 		getGlobal();
 	}, [getGlobal]);
+	console.log(getGlobal);
 	const [country, setCountry] = useState([]);
 	const data = globalData.Global;
+	const countryData = [
+		{
+			country: data?.Country,
+			countryCode: data?.CountryCode,
+			newConfirmed: data?.NewConfirmed,
+			totalConfirmed: data?.TotalConfirmed,
+			newDeaths: data?.NewDeaths,
+			totalDeaths: data?.TotalDeaths,
+			newRecovered: data?.NewRecovered,
+			totalRecovered: data?.TotalRecovered,
+		},
+	];
 	const deathRate = (data?.TotalDeaths / data?.TotalConfirmed) * 100;
 	const recoveredRate = (data?.TotalRecovered / data?.TotalConfirmed) * 100;
 	const countries = globalData.Countries?.forEach((e) => {
 		country.push({
 			country: e?.Country,
 			countryCode: e.CountryCode,
-			newConfirmed: e.NewConfirmed,
 			totalConfirmed: e.TotalConfirmed,
-			newDeaths: e.NewDeaths,
 			totalDeaths: e.TotalDeaths,
-			newRecovered: e.NewRecovered,
 			totalRecovered: e.TotalRecovered,
 		});
 	});
-	return (
+	return loading ? (
+		<div>Loading</div>
+	) : (
 		<div
 			style={{
 				display: "flex",
@@ -36,13 +49,10 @@ const GlobalPage = ({ getGlobal, global: { globalData, loading } }) => {
 					display: "flex",
 					flexDirection: "column",
 				}}>
-				<Dashboard Data={data} type={"Global"} />
+				<Dashboard Data={countryData} type={"Global"} />
 				<div
 					style={{
-						display: "flex",
-						flexDirection: "row",
-						width: 1100,
-						flexWrap: "wrap",
+						marginTop: 40,
 					}}>
 					<CountryCard countries={country} />
 				</div>
@@ -51,6 +61,7 @@ const GlobalPage = ({ getGlobal, global: { globalData, loading } }) => {
 		</div>
 	);
 };
+
 GlobalPage.propTypes = {
 	getGlobal: PropTypes.func.isRequired,
 	global: PropTypes.object.isRequired,
